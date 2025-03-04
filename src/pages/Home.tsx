@@ -1,8 +1,22 @@
 import React from "react";
+import { useState } from "react";
 import Cart from '../assets/icon-cart.svg'
 import { shoesDetails } from '../Data/Data'
 
 const Home: React.FC = () => {
+  const [selectedImage, setselectedImage] = useState(shoesDetails[0].image)
+  const  [selectedDetails, setSelectedDetails] = useState<any | null>(shoesDetails[0])
+  const [activeImage,setActiveImage] = useState(shoesDetails[0].id)
+  const [count, setCount] = useState<number>(0)
+
+  const handleIncrement = () =>{
+    setCount((prev)=> prev + 1)
+  }
+
+  const handleDecrement = () =>{
+    setCount((prev)=> count > 0 ? prev - 1 : 0)
+  }
+
   return (
     <div className="w-full h-full ">
       <div className="max-w-[1024px] mx-auto font-kumbh">
@@ -12,7 +26,7 @@ const Home: React.FC = () => {
             {shoesDetails.map((shoe)=>
               <img
               key={shoe.id}
-              src={shoe.image}
+              src={selectedImage}
               alt={shoe.Heading}
               className="object-cover w-full h-full"
             />
@@ -23,7 +37,14 @@ const Home: React.FC = () => {
              {shoesDetails.map((shoe)=>
                 <div 
                 key={shoe.image}
-                className="w-20 h-20 rounded-xl overflow-hidden hover:opacity-80"
+                className={`w-20 h-20 rounded-xl overflow-hidden hover:opacity-60 cursor-pointer ${
+                  activeImage ===  shoe.id ? "border-2 border-Orange opacity-60": ""
+                }`}
+                onClick={() => {
+                  setselectedImage(shoe.image);
+                  setActiveImage(shoe.id);
+                  setSelectedDetails(shoe)
+                }}
                 >
                 <img src={shoe.image} alt="Images" />
                 </div>
@@ -32,20 +53,29 @@ const Home: React.FC = () => {
           </div>
 
           <div className="mt-10 flex flex-col gap-3">
-            <h3 className="text-DarkGrayishBlue text-[12px] font-medium">SNAKER COMPANY</h3>
-            <h1 className="text-[30px] max-w-[300px] font-[700]">Fall Limited Edition Sneakers</h1>
-            <p className="text-DarkGrayishBlue text-[13px] max-w-[330px]">These low-profile sneakers are your perfect casual waer comparison. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer</p>
 
-            <div className="flex flex-row justify-start items-center gap-3 mt-3">
-                <h1 className="text-black font-[700] text-[20px]">$125.00</h1>
-                <p className="bg-black text-white text-[14px] text-center p-1 rounded-md w-14 h-7">50%</p>
+            <div className=" flex flex-col gap-5">
+              {selectedDetails && (
+                <div className="font-kumbh flex flex-col justify-center items-start">
+                  <h1 className="text-[12px] text-DarkGrayishBlue font-[700] mb-4">{selectedDetails.company}</h1>
+                  <h1 className="text-[30px] font-semibold max-w-[300px] mb-4">{selectedDetails.Heading}</h1>
+                  <p className="max-w-[390px] text-[15px] text-DarkGrayishBlue mb-4">{selectedDetails.Description}</p>
+                  
+                  <div className="flex flex-row gap-5 mb-7">
+                    <p className="text-black text-[20px] font-bold">{selectedDetails.price}</p>
+                    <p className="bg-black text-white text-center h-6 w-14 rounded-lg">{selectedDetails.percentage}</p>
+                  </div>
+                </div>
+              )}
             </div>
-            <p className="text-DarkGrayishBlue line-through font-[500]">250.00</p>
-
-            <div className="flex flex-row justify-center items-center gap-10">
-                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]">-</p>
-                <p className=" font-bold text-[25px]">0</p>
-                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]">+</p>
+            <div className="flex flex-row justify-start items-center gap-10">
+                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]"
+                onClick={handleDecrement}
+                >-</p>
+                <p className=" font-bold text-[25px]">{count}</p>
+                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]"
+                onClick={handleIncrement}
+                >+</p>
                 <div className="bg-Orange w-44 h-10 rounded-lg flex flex-row justify-center items-center gap-2 cursor-pointer hover:bg-[#ff7d1ac0]">
                     <img src={Cart} alt="Cart" />
                     <p className="text-[13px] font-semibold">Add to cart</p>

@@ -50,7 +50,7 @@ const handleCart = () =>{
                 <button className="w-72 h-8 bg-Orange mt-4 rounded-lg hover:bg-[#ff7d1ac0]">Checkout</button>
               </div>
             )}
-            <img src={prflImage} alt="Cart Icon" className="w-10 h-10"/>
+            <img src={prflImage} alt="Cart Icon" className="w-10 h-10 hover:border-2 hover:border-Orange rounded-full"/>
         </div>
       </div>
     </div>
