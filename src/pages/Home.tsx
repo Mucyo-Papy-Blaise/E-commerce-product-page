@@ -1,18 +1,34 @@
 import React from "react";
-import image from "../assets/image-product-1.jpg";
 import Cart from '../assets/icon-cart.svg'
+import { shoesDetails } from '../Data/Data'
 
 const Home: React.FC = () => {
   return (
-    <div className="w-full min-h-screen ">
+    <div className="w-full h-full ">
       <div className="max-w-[1024px] mx-auto font-kumbh">
         <div className="flex flex-row gap-20">
-          <div className="bg-VeryDarkBlue w-[380px] h-96 rounded-xl overflow-hidden">
-            <img
-              src={image}
-              alt="Image"
+          <div className="flex flex-col">
+          <div className="bg-VeryDarkBlue w-[350px] h-[340px] rounded-xl overflow-hidden">
+            {shoesDetails.map((shoe)=>
+              <img
+              key={shoe.id}
+              src={shoe.image}
+              alt={shoe.Heading}
               className="object-cover w-full h-full"
             />
+            )}
+          </div>
+
+          <div className="flex flex-row mt-8 gap-3">
+             {shoesDetails.map((shoe)=>
+                <div 
+                key={shoe.image}
+                className="w-20 h-20 rounded-xl overflow-hidden hover:opacity-80"
+                >
+                <img src={shoe.image} alt="Images" />
+                </div>
+            )}
+          </div>
           </div>
 
           <div className="mt-10 flex flex-col gap-3">
@@ -27,9 +43,9 @@ const Home: React.FC = () => {
             <p className="text-DarkGrayishBlue line-through font-[500]">250.00</p>
 
             <div className="flex flex-row justify-center items-center gap-10">
-                <p className="text-Orange text-[25px] font-bold">-</p>
+                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]">-</p>
                 <p className=" font-bold text-[25px]">0</p>
-                <p className="text-Orange text-[25px] font-bold">+</p>
+                <p className="text-Orange text-[25px] font-bold cursor-pointer hover:text-[#ff7d1ac0]">+</p>
                 <div className="bg-Orange w-44 h-10 rounded-lg flex flex-row justify-center items-center gap-2 cursor-pointer hover:bg-[#ff7d1ac0]">
                     <img src={Cart} alt="Cart" />
                     <p className="text-[13px] font-semibold">Add to cart</p>
