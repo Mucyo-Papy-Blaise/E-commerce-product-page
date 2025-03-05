@@ -3,11 +3,20 @@ import { useState } from "react";
 import Cart from '../assets/icon-cart.svg'
 import { shoesDetails } from '../Data/Data'
 
+interface CartItem {
+  id:number;
+  image:string;
+  heading: string;
+  perPair:Number;
+}
+
+
 const Home: React.FC = () => {
   const [selectedImage, setselectedImage] = useState(shoesDetails[0].image)
   const  [selectedDetails, setSelectedDetails] = useState<any | null>(shoesDetails[0])
   const [activeImage,setActiveImage] = useState(shoesDetails[0].id)
   const [count, setCount] = useState<number>(0)
+  const [cart, setCart] = useState<CartItem[]>([])
 
   const handleIncrement = () =>{
     setCount((prev)=> prev + 1)
@@ -17,10 +26,35 @@ const Home: React.FC = () => {
     setCount((prev)=> count > 0 ? prev - 1 : 0)
   }
 
+  const addToCart = () => {
+    if (count === 0) return;
+
+    const existingItemIndex = cart.findIndex(item => item.id === selectedDetails.id);
+
+    if (existingItemIndex > -1) {
+      const updatedCart = [...cart];
+      setCart(updatedCart);
+    } else {
+      const newCartItem: CartItem = {
+        id: selectedDetails.id,
+        heading: selectedDetails.Heading,
+        perPair: selectedDetails.price,
+        image: selectedDetails.image,
+      };
+      setCart([...cart, newCartItem]);
+    }
+
+    setCount(0);
+  }
+
+  const removeFromCart = (id: number) => {
+    setCart(cart.filter(item => item.id !== id));
+  }
+
   return (
     <div className="w-full h-full ">
       <div className="max-w-[1024px] mx-auto font-kumbh">
-        <div className="flex flex-row gap-20">
+        <div className="flex flex-col md:pt-36 pl-5 md:flex-row gap-10 md:gap-20">
           <div className="flex flex-col">
           <div className="bg-VeryDarkBlue w-[350px] h-[340px] rounded-xl overflow-hidden">
             {shoesDetails.map((shoe)=>
