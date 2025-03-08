@@ -8,9 +8,9 @@ const Home: React.FC = () => {
   const [selectedImage, setselectedImage] = useState(shoesDetails[0].image)
   const  [selectedDetails, setSelectedDetails] = useState<any | null>(shoesDetails[0])
   const [activeImage,setActiveImage] = useState(shoesDetails[0].id)
-  const [count, setCount] = useState<number>(0)
+  let [count, setCount] = useState<number>(0)
   const [cartCount, setCartCount] = useState<number>(0)
-  const [cartDetails, setCartDetails] =  useState<any | null>(null)
+  const [cartDetails, setCartDetails] =  useState<any | []>([])
 
   const handleIncrement = () =>{
     setCount((prev)=> prev + 1)
@@ -22,9 +22,22 @@ const Home: React.FC = () => {
 
   const handleAddToChart =()=>{
     if(count > 0){
-      setCartCount(count)
-      setCartDetails(selectedDetails)
+      const existingItemIndex = cartDetails.findIndex((item: { id: any; }) => item.id === selectedDetails.id)
+      setCartCount(cartCount)
+
+      if( existingItemIndex !== -1){
+        const updateCart = [...cartDetails]
+        updateCart[existingItemIndex].quantity += count
+        setCartDetails(updateCart)
+      }else{
+        setCartDetails([...cartDetails,{...selectedDetails, quantity:count}])
+      }
     }
+  }
+
+  const handleDelete =(id: number)=>{
+    const updateCart = cartDetails.filter((item: any) => item.id !== id)
+    setCartDetails(updateCart)
   }
   return (
     
@@ -32,7 +45,9 @@ const Home: React.FC = () => {
     <NavBar 
         heading= {cartDetails ? cartDetails.heading : ""}
         image = {cartDetails ? cartDetails.image : ""} 
-        price={cartDetails ? cartDetails.price : ""}   
+        price={cartDetails ? cartDetails.price : ""}
+        count={cartCount}
+        onDelete={handleDelete} 
       />
 
       <div className="max-w-[1024px] mx-auto font-kumbh">

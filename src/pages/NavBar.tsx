@@ -9,9 +9,11 @@ interface NavBarProps {
   image: string;
   heading: string;
   price: string;
+  count: number;
+  onDelete:(id: any) => void
 }
 
-const NavBar: React.FC<NavBarProps>= ({ image, heading, price}) => {
+const NavBar: React.FC<NavBarProps>= ({ image, heading, price, count, onDelete}) => {
   const [isCartOpen, setisCartOpen] = useState<boolean>(false)
   const [activeLink, setactiveLink] = useState<string>("")
   const [isMobileOpen,setisMobileOpen] = useState<boolean>(false)
@@ -80,23 +82,33 @@ const navLinks = ["Collections","Men","Women","About","Contact"]
             <img src={cartIcon} alt="Cart Icon" className="w-5 h-5"
             onClick={handleCart}
             />
-            {isCartOpen && (
-              <div className="absolute md:w-80 w-full p-5 h-48 bg-PadeOrange rounded-lg z-10 md:left-[700px] left-0 top-16 shadow-2xl cursor-pointer">
-                <h1 className="font-[700] mb-5">Cart</h1> 
-                <div className="flex flex-row gap-3">
-                <div className="w-16 h-16 bg-black rounded-lg overflow-hidden">
-                  <img src={image} alt="Image" /> 
-                </div>
-                  <div className="flex flex-row items-center gap-6">
-                    <div className="flex flex-col">
-                      <h2 className="text-DarkGrayishBlue text-[13px] mb-1">{heading}</h2>
-                      <p className="text-DarkGrayishBlue text-[13px]">{price} x <span className="font-black text-black">$375.00</span></p>
-                    </div>
-                    <img src={iconDelte} alt="Delete Icon" className="w-4 h-4" />
-                  </div>
-                </div>
-                <button className="w-72 h-8 bg-Orange mt-4 rounded-lg hover:bg-[#ff7d1ac0]">Checkout</button>
-              </div>
+            {isCartOpen &&(
+             <div className="absolute md:w-80 w-full p-5 h-48 bg-PadeOrange rounded-lg z-10 md:left-[700px] left-0 top-16 shadow-2xl cursor-pointer">
+             <h1 className="font-[700] mb-5">Cart</h1> 
+
+             {count > 0 ? 
+             <div className="flex flex-row gap-3">
+             <div className="w-16 h-16 bg-black rounded-lg overflow-hidden">
+               <img src={image} alt="Image" /> 
+             </div>
+               <div className="flex flex-row items-center gap-6">
+                 <div className="flex flex-col">
+                   <h2 className="text-DarkGrayishBlue text-[13px] mb-1">{heading}</h2>
+                   <p className="text-DarkGrayishBlue text-[13px]">{price} x <span className="font-black text-black">$375.00</span></p>
+                 </div>
+                 <img src={iconDelte} alt="Delete Icon" className="w-4 h-4" 
+                  onClick={onDelete} 
+                 />
+               </div>
+             </div>
+             : <div className="flex justify-center items-center font-kumbh text-[20px]">
+                <p className="">The Cart is Empty</p>
+              </div>}
+             
+             {count > 0 && (
+              <button className="w-72 h-8 bg-Orange mt-4 rounded-lg hover:bg-[#ff7d1ac0]">Checkout</button>
+             )}
+           </div> 
             )}
             <img src={prflImage} alt="Cart Icon" className="w-10 h-10 hover:border-2 hover:border-Orange rounded-full"/>
         </div>
