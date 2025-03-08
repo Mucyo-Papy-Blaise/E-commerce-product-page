@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from '../assets/icon-cart.svg'
 import prflImage from '../assets/image-avatar.png'
-import image1 from "../assets/image-product-1.jpg";
 import iconDelte from "../assets/icon-delete.svg";
 import { Menu, X } from 'lucide-react';
 
-const NavBar: React.FC= () => {
+interface NavBarProps {
+  image: string;
+  heading: string;
+  price: string;
+}
+
+const NavBar: React.FC<NavBarProps>= ({ image, heading, price}) => {
   const [isCartOpen, setisCartOpen] = useState<boolean>(false)
   const [activeLink, setactiveLink] = useState<string>("")
   const [isMobileOpen,setisMobileOpen] = useState<boolean>(false)
@@ -80,12 +85,12 @@ const navLinks = ["Collections","Men","Women","About","Contact"]
                 <h1 className="font-[700] mb-5">Cart</h1> 
                 <div className="flex flex-row gap-3">
                 <div className="w-16 h-16 bg-black rounded-lg overflow-hidden">
-                  <img src={image1} alt="Image" /> 
+                  <img src={image} alt="Image" /> 
                 </div>
                   <div className="flex flex-row items-center gap-6">
                     <div className="flex flex-col">
-                      <h2 className="text-DarkGrayishBlue text-[13px] mb-1">Fall Limited Edition Sneakers</h2>
-                      <p className="text-DarkGrayishBlue text-[13px]">$125.00 x <span className="font-black text-black">$375.00</span></p>
+                      <h2 className="text-DarkGrayishBlue text-[13px] mb-1">{heading}</h2>
+                      <p className="text-DarkGrayishBlue text-[13px]">{price} x <span className="font-black text-black">$375.00</span></p>
                     </div>
                     <img src={iconDelte} alt="Delete Icon" className="w-4 h-4" />
                   </div>
