@@ -3,7 +3,6 @@ import { useState } from "react";
 import Cart from '../assets/icon-cart.svg'
 import { shoesDetails } from '../Data/Data'
 import NavBar from "./NavBar";
-
 const Home: React.FC = () => {
   const [selectedImage, setselectedImage] = useState(shoesDetails[0].image)
   const  [selectedDetails, setSelectedDetails] = useState<any | null>(shoesDetails[0])
@@ -22,33 +21,25 @@ const Home: React.FC = () => {
 
   const handleAddToChart =()=>{
     if(count > 0){
-      const existingItemIndex = cartDetails.findIndex((item: { id: any; }) => item.id === selectedDetails.id)
-      setCartCount(cartCount)
-
-      if( existingItemIndex !== -1){
-        const updateCart = [...cartDetails]
-        updateCart[existingItemIndex].quantity += count
-        setCartDetails(updateCart)
-      }else{
-        setCartDetails([...cartDetails,{...selectedDetails, quantity:count}])
-      }
+      setCartCount(count)
+      setCartDetails(selectedDetails)
     }
   }
 
-  const handleDelete =(id: number)=>{
-    const updateCart = cartDetails.filter((item: any) => item.id !== id)
-    setCartDetails(updateCart)
+  const handleDelete =()=>{
+    setCartCount(0)
+    setCartDetails(null)
   }
   return (
     
     <div className="w-full h-full ">
     <NavBar 
-        heading= {cartDetails ? cartDetails.heading : ""}
-        image = {cartDetails ? cartDetails.image : ""} 
-        price={cartDetails ? cartDetails.price : ""}
+        heading={cartDetails ? cartDetails.heading : ""}
+        image={cartDetails  ? cartDetails.image : ""} 
+        price={cartDetails  ? cartDetails.price : ""}
         count={cartCount}
         onDelete={handleDelete} 
-      />
+    />
 
       <div className="max-w-[1024px] mx-auto font-kumbh">
         <div className="flex flex-col md:pt-36 pl-5 md:flex-row gap-10 md:gap-20">

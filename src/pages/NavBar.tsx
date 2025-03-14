@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from '../assets/icon-cart.svg'
 import prflImage from '../assets/image-avatar.png'
 import iconDelte from "../assets/icon-delete.svg";
 import { Menu, X } from 'lucide-react';
+import { LoginContext } from "../Context/LoginContext";
 
 interface NavBarProps {
   image: string;
@@ -17,6 +18,7 @@ const NavBar: React.FC<NavBarProps>= ({ image, heading, price, count, onDelete})
   const [isCartOpen, setisCartOpen] = useState<boolean>(false)
   const [activeLink, setactiveLink] = useState<string>("")
   const [isMobileOpen,setisMobileOpen] = useState<boolean>(false)
+  const {userName} = useContext(LoginContext)
 
 const toggleMobile =()=>{
   setisMobileOpen(!isMobileOpen)
@@ -78,7 +80,7 @@ const navLinks = ["Collections","Men","Women","About","Contact"]
           </div>
         )}
 
-        <div className="flex flex-row justify-center items-center gap-8 md:gap-16 font-kumbh cursor-pointer">
+        <div className="flex flex-row justify-center items-center gap-8 md:gap-8 font-kumbh cursor-pointer">
             <img src={cartIcon} alt="Cart Icon" className="w-5 h-5"
             onClick={handleCart}
             />
@@ -111,6 +113,7 @@ const navLinks = ["Collections","Men","Women","About","Contact"]
            </div> 
             )}
             <img src={prflImage} alt="Cart Icon" className="w-10 h-10 hover:border-2 hover:border-Orange rounded-full"/>
+            <p className="text-DarkGrayishBlue hover:text-black text-[15px]">Email: <span className="text-Orange font-bold text-[15px]">{userName}</span></p>
         </div>
       </div>
     </div>

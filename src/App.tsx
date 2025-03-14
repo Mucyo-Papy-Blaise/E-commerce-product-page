@@ -1,15 +1,20 @@
 import './index.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
+import { useState } from 'react';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import { LoginContext } from './Context/LoginContext';
 
 const App: React.FC = () => {
+  const [showHome, setShowHome] =  useState<boolean>(false)
+  const [userName, setUsername] = useState<string>("")
+
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element = {<Home/>}/>
-      </Routes>
-    </Router>
+    <div>
+      <LoginContext.Provider value={{userName,setUsername,showHome,setShowHome}}>
+        {showHome ? <Home /> : <Login />}
+      </LoginContext.Provider>
+    </div>
   );
 };
 
